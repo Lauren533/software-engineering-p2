@@ -12,6 +12,7 @@ struct Players
 	int dexterity;
 	int strength;
 	int life_points;
+	int slot_number;
 	
 };
 
@@ -19,6 +20,7 @@ void human (struct Players *structname);
 void elf (struct Players *structname);
 void ogre (struct Players *structname);
 void wizard (struct Players *structname);
+void slot_allocater (struct Players *structname);
 int main(void)
 {
 
@@ -157,5 +159,41 @@ void ogre (struct Players *structname)
 		(*structname).magic_skills= 0;
 		
 		(*structname).life_points=100;
+}
+void slot_allocater (struct Players *structname)
+{
+	int i, tmp, j;
+	int player_num[no_players];
+	//to avoid confucion, player_num is the name of the array containing an integer value for each player.
+	//no_players is the number of players that are in the game.
+	int slot_num[num_of_slots];
+	//slot_num is the name of the array storing an int value for each slot in the game.
+	//num_of_slots is the number of slots in the game.
+	//num_of_slots = 
+	
+	//assigning a slot for each player
+	for (i = 0; i < num_of_slots; i++)
+	{
+		if (i < no_players)
+		{
+			slot_num[i] = i + 1;
+		}
+		else
+		{
+			slot_num[i]= 0;
+		}
+	}
+	//shuffling the slots to make it 'random'
+	
+	for (i = 0; i < num_of_slots; i++)
+	{
+		if (slot_num[i] > 0)
+		{
+			structname[slot_num[i]].slot_number = i;
+		}
+		//j = rand ()% ;
+	}
+	
+	
 }
 	
