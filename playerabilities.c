@@ -2,6 +2,66 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
+#define MAX_SLOT_NUMBER 20
+
+//sloot stuff
+struct Slot
+{
+	char *location;
+	int number;
+
+};
+
+// Initialize slot array to random places.
+void init_slots(struct Slot *slots, int num_of_slots)
+{
+	int i = 0;
+	for (i = 0; i < num_of_slots; i++)
+	{
+		int slotlocation = rand() % 3;
+
+		slots[i].number = i + 1;
+		if (slotlocation == 0)
+		{
+			slots[i].location = "Hill";
+		}
+		else if (slotlocation == 1)
+		{
+			slots[i].location = "City";
+		}
+		else if (slotlocation == 2)
+		{
+			slots[i].location = "Level Ground";
+		}
+	}
+}
+
+void print_slots(struct Slot * slots, int num_of_slots)
+{
+	int i = 0;
+	printf("The slots entered are:\n");
+	for (i = 0; i < num_of_slots; i++)
+	{
+		printf("%2d: %s\n", slots[i].number, slots[i].location);
+	}
+}
+
+int input_num_of_slots ()
+{
+	int num_of_slots;
+	printf("Please input the number of slots you would like to create (max 20) : ");
+	scanf("%d", &num_of_slots);
+	while (num_of_slots > MAX_SLOT_NUMBER)
+	{
+		printf("Number of slots chosen is too many. It must be less than %d\n", MAX_SLOT_NUMBER);
+		printf("Please enter a number less than or equal to 20\n");
+		scanf("%d", &num_of_slots);
+	}
+	return num_of_slots;
+}
+
+
+//plaayer stuff.
 struct Player //s
 {
 	char name[15];
@@ -24,29 +84,33 @@ void slot_allocater (struct Player *structname);
 int main(void)
 {
 
-srand(time(NULL));
-int no_players;
-int i;
-int type;
-char name[15];
+	srand(time(NULL));
+	int num_of_slots = input_num_of_slots ();
+	struct Slot slots[MAX_SLOT_NUMBER];
+	init_slots(slots, num_of_slots);
+	print_slots(slots, num_of_slots);
+	int no_players;
+	int i;
+	int type;
+	//char name[15];
 
 
-printf("Please enter the number of players you wish to have (max 6) \n \n");
-scanf("%d",&no_players);
+	printf("Please enter the number of players you wish to have (max 6) \n \n");
+	scanf("%d",&no_players);
 
-struct Player playerstruct[no_players];
+	struct Player playerstruct[no_players];
 
-printf("To pick your player type, please use these corresponding numbers: \n"
-		"Elf=1 \n"
-		"Human=2 \n"
-		"Ogre=3 \n"
-		"Wizard=4 \n \n");
-		
-for (i=0;i<no_players;i++)
-{
+	printf("To pick your player type, please use these corresponding numbers: \n"
+			"Elf=1 \n"
+			"Human=2 \n"
+			"Ogre=3 \n"
+			"Wizard=4 \n \n");
+			
+	for (i=0;i<no_players;i++)
+	{
 
-	printf(" \n Please enter corresponding number of player type: \n ");
-	scanf("%d",&type);
+		printf(" \n Please enter corresponding number of player type: \n ");
+		scanf("%d",&type);
 	
 		if (type==1)
 		{
@@ -65,44 +129,40 @@ for (i=0;i<no_players;i++)
 			strcpy(playerstruct[i].type,"Wizard");
 		}
 			
-	printf("\n Please enter player name: \n");
-	scanf("%s", playerstruct[i].name);
-	
-	
+		printf("\n Please enter player name: \n");
+		scanf("%s", playerstruct[i].name);
+	}
 
-}
+	for (i=0;i<no_players;i++)
+	{
+		if (strcmp(playerstruct[i].type,"Elf")==0)
+		{
+			init_elf(&playerstruct[i]);
+		}
+		else if(strcmp(playerstruct[i].type,"Human")==0)
+		{
+			init_human(&playerstruct[i]);
+		}
+		else if(strcmp(playerstruct[i].type,"Ogre")==0)
+		{
+			init_ogre(&playerstruct[i]);
+		}
+		else if (strcmp(playerstruct[i].type,"Wizard")==0)
+		{
+			init_wizard(&playerstruct[i]);
+		}
+	}
 
-for (i=0;i<no_players;i++)
-{
-	if (strcmp(playerstruct[i].type,"Elf")==0)
-	{
-		init_elf(&playerstruct[i]);
+	for(i=0; i<no_players; i++){
+		
+		printf("Name of player %d is %s.\n", i+1, playerstruct[i].name);
+		printf("Smartness: %d.\n", playerstruct[i].smartness);
+		printf("Dexterity: %d.\n", playerstruct[i].dexterity);
+		printf("Strength: %d.\n", playerstruct[i].strength);
+		printf("Magic Skills: %d.\n", playerstruct[i].magic_skills);
+		printf("Luck: %d.\n\n", playerstruct[i].luck);
 	}
-	else if(strcmp(playerstruct[i].type,"Human")==0)
-	{
-		init_human(&playerstruct[i]);
-	}
-	else if(strcmp(playerstruct[i].type,"Ogre")==0)
-	{
-		init_ogre(&playerstruct[i]);
-	}
-	else if (strcmp(playerstruct[i].type,"Wizard")==0)
-	{
-		init_wizard(&playerstruct[i]);
-	}
-	
-}
-
-for(i=0; i<no_players; i++){
-	
-	printf("Name of player %d is %s.\n", i+1, playerstruct[i].name);
-	printf("Smartness: %d.\n", playerstruct[i].smartness);
-	printf("Dexterity: %d.\n", playerstruct[i].dexterity);
-	printf("Strength: %d.\n", playerstruct[i].strength);
-	printf("Magic Skills: %d.\n", playerstruct[i].magic_skills);
-	printf("Luck: %d.\n\n", playerstruct[i].luck);
-}
-return 0;
+	return 0;
 }
 
 void init_human (struct Player *structname)
@@ -160,7 +220,7 @@ void init_ogre (struct Player *structname)
 		
 		(*structname).life_points=100;
 }
-void slot_allocater (struct Player *structname)
+/*void slot_allocater (struct Player *structname)
 {
 	int i, tmp, j;
 	int player_num[no_players];
@@ -195,11 +255,11 @@ void slot_allocater (struct Player *structname)
 	}
 	
 	
-}
+}*/
 
-void changing_caps (struct Player * pplayer)
+void changing_caps (struct Player * pplayer, struct Slot* pSlot)
 {
-	if (pplayer->slot_number == "Hill")
+	if (strcmp (pSlot->location, "Hill") == 0)
 	{
 		if (pplayer->dexterity < 50)
 		{
@@ -210,7 +270,7 @@ void changing_caps (struct Player * pplayer)
 			pplayer->strength += 10;
 		}
 	}
-	else if (pplayer->slot_number == "City")
+	else if (strcmp(pSlot->location, "City") == 0)
 	{
 		if (pplayer->smartness > 60)
 		{
@@ -224,13 +284,14 @@ void changing_caps (struct Player * pplayer)
 }
 
 
-void attack_other_player (struct Player * structname)
+void attack_other_player (struct Player * pAttacker, struct Player* pDefender)
 {
-	int attack_direction;
-	if (//There's a player on either side)
+	if (pDefender->strength <= 70)
 	{
-		printf("To attak the player in the slot above you enter 1\n");
-			  ("To attack the player in the slot below you enter 0\n");
-		scanf("%d", &attack_direction);
+		pDefender->life_points -= pDefender->strength/2;
+	}
+	else
+	{
+		pAttacker->life_points -= 0.3 * pDefender->strength;
 	}
 }
