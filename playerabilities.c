@@ -61,7 +61,7 @@ int input_num_of_slots ()
 }
 
 
-//plaayer stuff.
+//player stuff.
 struct Player //s
 {
 	char name[15];
@@ -295,3 +295,5 @@ void attack_other_player (struct Player * pAttacker, struct Player* pDefender)
 		pAttacker->life_points -= 0.3 * pDefender->strength;
 	}
 }
+
+void player_move()
