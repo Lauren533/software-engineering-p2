@@ -2,7 +2,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
-struct Players
+struct Player //s
 {
 	char name[15];
 	char type[10];
@@ -16,11 +16,11 @@ struct Players
 	
 };
 
-void human (struct Players *structname);
-void elf (struct Players *structname);
-void ogre (struct Players *structname);
-void wizard (struct Players *structname);
-void slot_allocater (struct Players *structname);
+void init_human (struct Player *structname);
+void init_elf (struct Player *structname);
+void init_ogre (struct Player *structname);
+void init_wizard (struct Player *structname);
+void slot_allocater (struct Player *structname);
 int main(void)
 {
 
@@ -34,7 +34,7 @@ char name[15];
 printf("Please enter the number of players you wish to have (max 6) \n \n");
 scanf("%d",&no_players);
 
-struct Players playerstruct[no_players];
+struct Player playerstruct[no_players];
 
 printf("To pick your player type, please use these corresponding numbers: \n"
 		"Elf=1 \n"
@@ -76,19 +76,19 @@ for (i=0;i<no_players;i++)
 {
 	if (strcmp(playerstruct[i].type,"Elf")==0)
 	{
-		elf(&playerstruct[i]);
+		init_elf(&playerstruct[i]);
 	}
 	else if(strcmp(playerstruct[i].type,"Human")==0)
 	{
-		human(&playerstruct[i]);
+		init_human(&playerstruct[i]);
 	}
 	else if(strcmp(playerstruct[i].type,"Ogre")==0)
 	{
-		ogre(&playerstruct[i]);
+		init_ogre(&playerstruct[i]);
 	}
 	else if (strcmp(playerstruct[i].type,"Wizard")==0)
 	{
-		wizard(&playerstruct[i]);
+		init_wizard(&playerstruct[i]);
 	}
 	
 }
@@ -105,7 +105,7 @@ for(i=0; i<no_players; i++){
 return 0;
 }
 
-void human (struct Players *structname)
+void init_human (struct Player *structname)
 {
 	int sum;
 
@@ -123,7 +123,7 @@ void human (struct Players *structname)
 	}
 	(*structname).life_points=100;
 }
-void elf (struct Players *structname)
+void init_elf (struct Player *structname)
 {
 		(*structname).smartness= rand() %32 +69;
 		(*structname).luck=  rand() %42 +59;
@@ -133,7 +133,7 @@ void elf (struct Players *structname)
 		
 		(*structname).life_points=100;
 }
-void wizard (struct Players *structname)
+void init_wizard (struct Player *structname)
 {
 		(*structname).smartness= rand() %12 +89;
 		(*structname).luck=  rand() %52 + 49;
@@ -143,7 +143,7 @@ void wizard (struct Players *structname)
 		
 		(*structname).life_points=100;
 }
-void ogre (struct Players *structname)
+void init_ogre (struct Player *structname)
 {
 	int o_sum=51;
 	
@@ -160,7 +160,7 @@ void ogre (struct Players *structname)
 		
 		(*structname).life_points=100;
 }
-void slot_allocater (struct Players *structname)
+void slot_allocater (struct Player *structname)
 {
 	int i, tmp, j;
 	int player_num[no_players];
@@ -196,4 +196,41 @@ void slot_allocater (struct Players *structname)
 	
 	
 }
-	
+
+void changing_caps (struct Player * pplayer)
+{
+	if (pplayer->slot_number == "Hill")
+	{
+		if (pplayer->dexterity < 50)
+		{
+			pplayer->strength -= 10;
+		}
+		else if (pplayer->dexterity >= 60)
+		{
+			pplayer->strength += 10;
+		}
+	}
+	else if (pplayer->slot_number == "City")
+	{
+		if (pplayer->smartness > 60)
+		{
+			pplayer->magic_skills += 10;
+		}
+		else if (pplayer->smartness <= 50)
+		{
+			pplayer->magic_skills -= 10;
+		}
+	}
+}
+
+
+void attack_other_player (struct Player * structname)
+{
+	int attack_direction;
+	if (//There's a player on either side)
+	{
+		printf("To attak the player in the slot above you enter 1\n");
+			  ("To attack the player in the slot below you enter 0\n");
+		scanf("%d", &attack_direction);
+	}
+}
