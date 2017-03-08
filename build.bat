@@ -1,0 +1,1 @@
+gcc -Wall playerabilities.c -o runthis.exe
