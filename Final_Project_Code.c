@@ -37,7 +37,7 @@ typedef struct
     bool can_move_forward; //This will hold a true or false value for if it is possible for the user to move forward
     bool can_move_backward; //This will hold a true or false value for if it is possible for the user to move backward
     bool can_attack_two_players; //This will hold a true or false value for if there are two closest players and they can attack either
-    int closest_player1; /
+    int closest_player1; 
     int closest_player2;
 }Moves;
  
@@ -538,13 +538,13 @@ void fmoves(struct Players players[], struct Slot slots[] , Moves * moves, int n
                 printf("To Move forward: press 3");
             }
            
-            scanf("%d", &choice); /
+            scanf("%d", &choice); 
            
             if(choice==1)//ie attack closest player 
             {
                 attack_player(&players[i], &players[slots[moves->closest_player1].player_index]);
             }
-            else if( choice==3)  move forward
+            else if( choice==3)  //move forward
             {
                 move_player_right(&players[i], slots);
             }
